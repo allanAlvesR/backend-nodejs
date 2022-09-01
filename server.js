@@ -1,11 +1,30 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
-const port = 3001;
+app.use(express.json());
+
+const port = process.env.NODE_PORT;
 
 
-app.get('/',(req, res)=>{
-    res.send('Hello World!');
+
+app.get('/users',(req, res)=>{
+    const params = req.query;
+    console.log(params);
+    res.json(params);
 });
+
+app.post('/users/:id', (req, res)=>{
+    const params = req.params;
+    console.log(params);
+    res.json(params);
+});
+
+app.post('/users',(req, res)=>{
+    const params = req.body;
+    console.log(params);
+    res.json(params);
+});
+
 
 app.listen(port, () =>{
     console.log(`Running at port: ${port}`);
