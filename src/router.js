@@ -15,17 +15,18 @@ router.post('/users/:id', async(req, res)=>{
 });
 
 router.post('/users',async(req, res)=>{
-    const {name, email, idade, empresa} = req.body;
-    const id = crypto.randomBytes(4).toString('HEX');
-    await connection('users').insert({
-        id,
-        name,
-        email,
-        idade,
-        empresa
+    const users = req.body.map( user => {
+        return {
+            id: crypto.randomBytes(4).toString('HEX'),
+            name: user.name,
+            email: user.email,
+            age: user.age,
+            company: user.company}
     });
-    res.json({id});
+    const result = await connection('users').insert(users,['id']);
+    res.json(result);
 });
+
 
 
 module.exports = router;
