@@ -104,6 +104,3 @@ dist
 .tern-port
 
 
-migrations
-db.sqlite
-knexfile.js
