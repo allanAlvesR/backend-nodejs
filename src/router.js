@@ -1,32 +1,12 @@
 const express = require('express');
+const UserController = require('./controller/UserController');
 const router = express.Router();
-const crypto = require('crypto');
-const connection = require('./database/connection');
 
-router.get('/users',async(req, res)=>{
-    const users = await connection('users').select('*');
-    res.json(users);
-});
-
-router.post('/users/:id', async(req, res)=>{
-    const {id} = req.params;
-    const user = await connection('users').where('id',id).select('*');
-    res.json(user);
-});
-
-router.post('/users',async(req, res)=>{
-    const users = req.body.map( user => {
-        return {
-            id: crypto.randomBytes(4).toString('HEX'),
-            name: user.name,
-            email: user.email,
-            age: user.age,
-            company: user.company}
-    });
-    const result = await connection('users').insert(users,['id']);
-    res.json(result);
-});
-
+router.get('/users', UserController.list);
+router.get('/users/:id', UserController.show);
+router.post('/users', UserController.create);
+router.put('/users/:id', UserController.update);
+router.delete('/users/:id', UserController.delete);
 
 
 module.exports = router;

@@ -7,7 +7,8 @@ const PORT = process.env.BACKEND_PORT;
 
 
 app.use(cors({
-    origin: '*'
+    origin: '*',
+    methods: '*'
 }));
 app.use(express.json());
 app.use(router);
